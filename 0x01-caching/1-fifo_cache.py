@@ -12,31 +12,20 @@ class FIFOCache(BaseCaching):
     policy"""
 
     def __init__(self):
-        self.queue = []
-        self.ordered_cache_data = deque([])
+        self.ordered_cache_data = list()
         super().__init__()
 
-    """def put(self, key, item):
-        \"""Assigns value to cache\"""
+    def put(self, key, item):
+        """Assigns value to cache"""
         if key and item:
             self.cache_data[key] = item
-            if key not in self.queue:
-                self.queue.append(key)
+            if key not in self.ordered_cache_data:
+                self.ordered_cache_data.append(key)
 
-        if len(self.queue) > self.MAX_ITEMS:
-            popped = self.queue.pop(0)
-            del self.cache_data[popped]
-            print(f"DISCARD: {popped}")"""
-
-    def put(self, key, item):
-        if key and item:
-            if len(self.cache_data) == BaseCaching.MAX_ITEMS \
-                    and key not in self.ordered_cache_data:
-                discarded_dict = self.ordered_cache_data.popleft()
-                del self.cache_data[discarded_dict]
-                print(f'DISCARD: {discarded_dict}')
-            self.cache_data.update({key: item})
-            self.ordered_cache_data.append(key)
+        if len(self.ordered_cache_data) > self.MAX_ITEMS:
+            discarded_key = self.ordered_cache_data.pop(0)
+            del self.cache_data[discarded_key]
+            print(f"DISCARD: {discarded_key}")
 
     def get(self, key):
         """Returns a value of a particular key from
