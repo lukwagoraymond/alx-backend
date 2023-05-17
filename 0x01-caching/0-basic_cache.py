@@ -10,6 +10,7 @@ class BasicCache(BaseCaching):
     its put and get methods"""
 
     def __init__(self):
+        """Iniatalise"""
         super().__init__()
 
     def put(self, key, item):
@@ -17,7 +18,7 @@ class BasicCache(BaseCaching):
         if key is None and item is None:
             pass
         else:
-            self.cache_data.update({key: item})
+            self.cache_data[key] = item
 
     def get(self, key):
         """Returns a value of a particular key from
