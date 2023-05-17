@@ -17,13 +17,14 @@ class LIFOCache(BaseCaching):
 
     def put(self, key, item):
         if key and item:
-            if len(self.cache_data) == BaseCaching.MAX_ITEMS and key not in self.stack:
-                discarded_dict = self.stack.pop()
-                del self.cache_data[discarded_dict]
-                print(f'DISCARD: {discarded_dict}')
-
             self.cache_data.update({key: item})
+            if key in self.stack:
+                self.stack.remove(key)
             self.stack.append(key)
+        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+            discarded_dict = self.stack.pop(-2)
+            del self.cache_data[discarded_dict]
+            print(f'DISCARD: {discarded_dict}')
 
     def get(self, key):
         """Returns a value of a particular key from
