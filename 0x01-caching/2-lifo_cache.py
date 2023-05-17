@@ -2,7 +2,6 @@
 """Module implements the LIFO caching replacement
 policy"""
 
-from collections import OrderedDict
 
 BaseCaching = __import__('base_caching').BaseCaching
 
@@ -21,7 +20,7 @@ class LIFOCache(BaseCaching):
             if key in self.stack:
                 self.stack.remove(key)
             self.stack.append(key)
-        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+        if len(self.stack) > BaseCaching.MAX_ITEMS:
             discarded_dict = self.stack.pop(-2)
             del self.cache_data[discarded_dict]
             print(f'DISCARD: {discarded_dict}')
