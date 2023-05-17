@@ -15,19 +15,17 @@ class LIFOCache(BaseCaching):
         super().__init__()
 
     def put(self, key, item):
+        """Adds item to cache memory"""
         if key and item:
+            if len(self.cache_data) == self.MAX_ITEMS \
+                    and key not in self.stack:
+                discarded_dict = self.stack.pop()
+                del self.cache_data[discarded_dict]
+                print("DISCARD: {}".format(discarded_dict))
             self.cache_data.update({key: item})
-            if key in self.stack:
-                self.stack.remove(key)
             self.stack.append(key)
-        if len(self.stack) > BaseCaching.MAX_ITEMS:
-            discarded_dict = self.stack.pop(-2)
-            del self.cache_data[discarded_dict]
-            print(f'DISCARD: {discarded_dict}')
 
     def get(self, key):
         """Returns a value of a particular key from
                 self.cache_data dictionary"""
-        if key not in self.cache_data or key is None:
-            return None
         return self.cache_data.get(key)
