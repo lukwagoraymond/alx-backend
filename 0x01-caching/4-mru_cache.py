@@ -14,6 +14,7 @@ class MRUCache(BaseCaching):
         super().__init__()
 
     def put(self, key, item):
+        """Adds an item to the cache memory"""
         if key and item:
             if len(self.cache_data) == BaseCaching.MAX_ITEMS\
                     and key not in self.stack:
@@ -28,8 +29,6 @@ class MRUCache(BaseCaching):
     def get(self, key):
         """Returns a value of a particular key from
                 self.cache_data dictionary"""
-        if key not in self.cache_data or key is None:
-            return None
         if key in self.stack:
             self.stack.remove(key)
             self.stack.append(key)
