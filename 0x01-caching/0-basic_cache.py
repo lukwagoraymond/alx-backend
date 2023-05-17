@@ -19,7 +19,7 @@ class BasicCache(BaseCaching):
             key (_type_): _description_
             item (_type_): _description_
         """
-        if key is None and item is None:
+        if key is None or item is None:
             pass
         else:
             self.cache_data[key] = item
